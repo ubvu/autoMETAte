@@ -81,5 +81,9 @@ def get_version():
     return version
 
 
+def get_commit_date():
+    pass
+
+
 # print(f"pwd: {os.getcwd()}")
 # print(f"rpoj name is: {)}")

@@ -3,3 +3,4 @@ psutil
 gputil
 pre-commit
 GitPython
+tomlkit
