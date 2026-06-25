@@ -15,18 +15,16 @@ optional = true
 
 
 # ************** OPTIONAL ****************
-[Software.manual]
+[Software]
 DOI = "" # it can be automated with the zenondo library
-URL = "" # can this be auto?
-Platform = "" # can this be auto?
+URL = ""
+Platform = ""
 Contributors = []
 Roles = {}
 Organisation = ""
 # Choose from Alpha, Beta, Production/Stable, Mature, & Inactive
 Development_status = ""
 
-
-[Software.auto]
 # These will be automatically filled out as described
 ## However, you can also manually fill them out as you see fit
 ### Just be aware that you will also need to set "auto = False"

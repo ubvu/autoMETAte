@@ -37,7 +37,7 @@ def get_contributors(max_commits=800):
         os.path.join(os.getcwd(), "software_metadata_template.toml"), "rb"
     ) as f:  # noqa: E501
         data = tomllib.load(f)
-    contributors = data["Software"]["manual"]["Contributors"]
+    contributors = data["Software"]["Contributors"]
     # Marker must be left to say which have been checked (date range)
     # Initialize the repository object - this connects to the git repo
     repo = Repo(search_parent_directories=True)
@@ -75,7 +75,7 @@ def get_platform():
         os.path.join(os.getcwd(), "software_metadata_template.toml"), "rb"
     ) as f:  # noqa: E501
         data = tomllib.load(f)
-    url = data["Software"]["manual"]["URL"]
+    url = data["Software"]["URL"]
 
     platform = re.findall(r"\/(\w+).", url)[0]
 
