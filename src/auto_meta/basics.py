@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+from datetime import datetime
 from os.path import dirname, isdir, join
 
 from git import Repo
@@ -82,8 +83,8 @@ def get_version():
 
 
 def get_commit_date():
-    pass
-
-
-# print(f"pwd: {os.getcwd()}")
-# print(f"rpoj name is: {)}")
+    # Get the latest commit
+    repo = Repo(search_parent_directories=True)
+    date = repo.head.commit.committed_date
+    date = datetime.fromtimestamp(date).strftime("%Y-%m-%d %H:%M:%S")
+    return date
