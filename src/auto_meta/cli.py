@@ -52,20 +52,12 @@ def main():
         ## or a check could run to confirm they are the same
         empties = ["Title", "Description", "URL", "Platform", "License"]
         # All other functions should run everytime
-        for section in ["Basic", "Software"]:
-            for field in metadata[section]:
-                if (
-                    metadata[section][field] == "" and field in empties
-                ) or field not in empties:
-                    metadata[section][field] = meta_funcs[field]
-                else:
-                    pass
         for section in meta_funcs.keys():
             for field in meta_funcs[section]:
                 if (
                     metadata[section][field] == "" and field in empties
                 ) or field not in empties:
-                    metadata[section][field] = meta_funcs[field]
+                    metadata[section][field] = meta_funcs[section][field]
                 else:
                     pass
         with open(meta_path, mode="wt", encoding="utf-8") as fp:
