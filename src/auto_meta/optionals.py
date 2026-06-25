@@ -66,7 +66,7 @@ def get_url():
     # Extract the Git repository URL
     repo_url = repo.remotes.origin.url
 
-    return repo_url
+    return str(repo_url)
 
 
 def get_platform():
@@ -110,7 +110,7 @@ def get_license():
     except FileNotFoundError:
         print("""There is no license for this project.
               That will make publishing and sharing your work difficult.""")
-        return None
+        return ""
 
 
 def get_release_date():
