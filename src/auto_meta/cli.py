@@ -70,6 +70,7 @@ def main():
                     pass
         with open(meta_path, mode="wt", encoding="utf-8") as fp:
             tomlkit.dump(metadata, fp)
+    return 0
 
 
 if __name__ == "__main__":

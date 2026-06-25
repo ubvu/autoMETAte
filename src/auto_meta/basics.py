@@ -21,8 +21,8 @@ def get_description():
     with open(os.path.join(os.getcwd(), "README.md")) as f:
         for line in f.readlines():
             paragraph = re.match(r"^[^#\n].+$", line)
-            if len(paragraph) > 0:
-                return paragraph
+            if paragraph:
+                return line
 
 
 version_re = re.compile("^Version: (.+)$", re.M)
