@@ -3,8 +3,8 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools", "setuptools-scm"]
 
 [project]
-name = "auto_meta"
-version = "0.1.0"
+name = "autometate"
+version = "0.1.1"
 description = "Automation of metadata production for software"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -17,11 +17,12 @@ classifiers = [
 ]
 requires-python = ">=3.11"
 dependencies = [
+    "gitpython>=3.1.50",
     "gputil>=1.4.0",
     "pre-commit>=4.2.0",
     "psutil>=7.0.0",
     "ruff>=0.11.8",
-
+    "tomlkit>=0.15.0",
 ]
 
 [tool.ruff]

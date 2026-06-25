@@ -1,0 +1,6 @@
+- id: autometate
+  name: autoMETAte
+  description: This hook populates a human and machine readable metadata file automatically.
+  entry: auto-meta
+  language: python
+  types: [python]
