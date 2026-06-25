@@ -2,7 +2,6 @@ import glob
 import json
 import os
 import re
-import tomllib
 
 from git import Repo
 
@@ -30,14 +29,10 @@ from git import Repo
 # Contact_person = "" # Take from the git email
 
 
-def get_contributors(max_commits=800):
+def get_contributors(metadata, max_commits=800):
     # The info is extracted from across all commits
     # Open the metadata folder to get the current contrib list and lastest date
-    with open(
-        os.path.join(os.getcwd(), "software_metadata_template.toml"), "rb"
-    ) as f:  # noqa: E501
-        data = tomllib.load(f)
-    contributors = data["Software"]["Contributors"]
+    contributors = metadata["Software"]["Contributors"]
     # Marker must be left to say which have been checked (date range)
     # Initialize the repository object - this connects to the git repo
     repo = Repo(search_parent_directories=True)
@@ -45,7 +40,10 @@ def get_contributors(max_commits=800):
     # max_count limits how many commits we process to avoid overwhelming data
 
     for commit in repo.iter_commits(max_count=max_commits):
-        if str(commit.committed_datetime) == data["Basic"]["Latest_commit"]:
+        if (
+            str(commit.committed_datetime)
+            == metadata["Basic"]["Latest_commit"]
+        ):
             contributors = list(set(contributors))
             return contributors
         else:
@@ -71,13 +69,12 @@ def get_url():
 
 def get_platform():
     # Open up the metadata and use the url value
-    with open(
-        os.path.join(os.getcwd(), "software_metadata_template.toml"), "rb"
-    ) as f:  # noqa: E501
-        data = tomllib.load(f)
-    url = data["Software"]["URL"]
+    # Initialise the Repo object
+    repo = Repo(search_parent_directories=True)
+    # Extract the Git repository URL
+    repo_url = repo.remotes.origin.url
 
-    platform = re.findall(r"\/(\w+).", url)[0]
+    platform = re.findall(r"\/(\w+).", repo_url)[0]
 
     return platform
 
@@ -96,7 +93,7 @@ def get_langs():
             lang_list.append(lang_dict["." + file.split(".")[-1]])
         except Exception as e:
             print(e)
-    lang_list = set(lang_list)
+    lang_list = list(set(lang_list))
 
     return lang_list
 
@@ -116,22 +113,29 @@ def get_license():
 def get_release_date():
     repo = Repo(search_parent_directories=True)
     # repo = Repo(repo_path)
+    try:
+        # Get the latest tag (most recent one)
+        latest_tag = repo.tags.sort(key=lambda x: x.commit.committed_datetime)[
+            -1
+        ]
+        # Get the commit associated with the tag
+        commit = latest_tag.commit
+        # Get the date of the commit
+        release_date = commit.committed_datetime
+    except TypeError:
+        release_date = ""
 
-    # Get the latest tag (most recent one)
-    latest_tag = repo.tags.sort(key=lambda x: x.commit.committed_datetime)[-1]
-
-    # Get the commit associated with the tag
-    commit = latest_tag.commit
-
-    # Get the date of the commit
-    release_date = commit.committed_datetime
     return release_date
 
 
-def get_contact():
-    # Open up repo object and take the email of the most recent commit maker
-    repo = Repo(search_parent_directories=True)
-    for commit in repo.iter_commits(max_count=1):
-        contact = commit.author.email
+def get_contact(metadata):
+    if metadata["Software"]["privacy"]:
+        contact = "redacted"
+    else:
+        # Open up repo object and take the email of the most
+        ## recent commit maker
+        repo = Repo(search_parent_directories=True)
+        for commit in repo.iter_commits(max_count=1):
+            contact = commit.author.email
 
     return contact

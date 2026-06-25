@@ -15,25 +15,30 @@ optional = true
 
 
 # ************** OPTIONAL ****************
+# These will be automatically filled out as described
+## However, you can also manually fill them out as you see fit
+### Just be aware that you will also need to set "optional = false"
 [Software]
 DOI = "" # it can be automated with the zenondo library
-URL = ""
-Platform = ""
-Contributors = []
+URL = "" # url of the repo that the software resides in
+Platform = "" # platform on which the software is stored
+Contributors = [] # all accounts that have contributed
+
+# ******MANUAL INPUT******
 Roles = {}
 Organisation = ""
 # Choose from Alpha, Beta, Production/Stable, Mature, & Inactive
 Development_status = ""
+# *****END MANUAL INPUT*****
 
-# These will be automatically filled out as described
-## However, you can also manually fill them out as you see fit
-### Just be aware that you will also need to set "auto = False"
-
-auto = true
 Programming_langs = [] # run a check on all the file types
 License = "" # Taken from the License file in the main folder
 Release_date = "" # time package
-Contact_person = "" # Take from the git email
+privacy = true # keeping this true means your associated email
+# address to the project will not be stored
+# if you want to be contacted directly about your work set
+# "privacy = false"
+Contact_person = "" # Take from the git email of latest contributor
 
 
 [Documentation]
