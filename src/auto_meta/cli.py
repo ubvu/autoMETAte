@@ -1,7 +1,7 @@
 # Shell for the CLI tool
 import datetime as dt
+import importlib.resources
 import os
-import shutil
 
 import tomlkit
 from basics import get_commit_date, get_description, get_title, get_version
@@ -40,36 +40,43 @@ def main():
     # Check for metadata and make it or check time diff
     if not os.path.isfile(META_PATH):
         open(META_PATH, "w")
-        # TODO: Find out where this code lives
-        # TODO find out how to include the template file in the package
-        shutil.copyfile("software_metadata_template.toml", META_PATH)
+        data_folder = importlib.resources.files("auto_meta") / "data"
+        with importlib.resources.as_file(
+            data_folder / "software_metadata_template.toml"
+        ) as f:
+            with open(f) as file:
+                template = tomlkit.load(file)
+        with open(META_PATH, mode="wt", encoding="utf-8") as ft:
+            tml_str = tomlkit.dumps(template)
+            ft.write(tml_str)
     elif (dt.datetime.now().timestamp() - os.path.getmtime(META_PATH)) < 120:
         return 0
     # Load the metadata file and check which fields are empty
     with open(META_PATH, mode="rt", encoding="utf-8") as file:
         metadata = tomlkit.load(file)
-        # These should only need to run once for any project
-        # Any changes can be done manually by the user
-        ## or a check could run to confirm they are the same
-        empties = ["Title", "Description", "URL", "Platform", "License"]
-        # All other functions should run everytime
-        for section in META_FUNCS.keys():
-            for field in META_FUNCS[section]:
-                if (
-                    metadata[section][field] == "" and field in empties
-                ) or field not in empties:
-                    if field in ["Contributors", "Contact_person"]:
-                        metadata[section][field] = META_FUNCS[section][field](
-                            metadata
-                        )
-                    else:
-                        metadata[section][field] = META_FUNCS[section][field]
-                    print(field, metadata[section][field])
+        print(metadata)
+    # These should only need to run once for any project
+    # Any changes can be done manually by the user
+    ## or a check could run to confirm they are the same
+    empties = ["Title", "Description", "URL", "Platform", "License"]
+    # All other functions should run everytime
+    for section in META_FUNCS.keys():
+        for field in META_FUNCS[section]:
+            if (
+                metadata[section][field] == "" and field in empties
+            ) or field not in empties:
+                if field in ["Contributors", "Contact_person"]:
+                    metadata[section][field] = META_FUNCS[section][field](
+                        metadata
+                    )
                 else:
-                    pass
-        with open(META_PATH, mode="wt", encoding="utf-8") as fp:
-            tomlkit.dump(metadata, fp)
-
+                    metadata[section][field] = META_FUNCS[section][field]
+                print(field, metadata[section][field])
+            else:
+                pass
+    with open(META_PATH, mode="wt", encoding="utf-8") as fp:
+        meta_full = tomlkit.dumps(metadata)
+        fp.write(meta_full)
     return 0
 
 

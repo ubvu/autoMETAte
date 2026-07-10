@@ -1,32 +1,10 @@
 import glob
+import importlib
 import json
 import os
 import re
 
 from git import Repo
-
-# Generating the optional values that can be automatically made
-# Check if optional is True
-# DOI = "" # it can be automated with the zenondo library
-# URL = "" # can this be auto?
-# Platform = "" # can this be auto?
-# Contributors = [] # commit authors can be checked, but is not certain
-# Roles = {}
-# Organisation = ""
-# # Choose from Alpha, Beta, Production/Stable, Mature, & Inactive
-# Development_status = ""
-
-
-# [Software.auto]
-# # These will be automatically filled out as described
-# ## However, you can also manually fill them out as you see fit
-# ### Just be aware that you will also need to set "auto = False"
-
-# auto = True
-# Programming_langs = [] # run a check on all the file types
-# License = "" # Taken from the License file in the main folder
-# Release_date = "" # time package
-# Contact_person = "" # Take from the git email
 
 
 def get_contributors(metadata, max_commits=800):
@@ -44,12 +22,14 @@ def get_contributors(metadata, max_commits=800):
             str(commit.committed_datetime)
             == metadata["Basic"]["Latest_commit"]
         ):
-            contributors = list(set(contributors))
-            return contributors
+            pass
         else:
-            contributors.append(
-                f"{commit.author.name}, <{commit.author.email}>"
-            )
+            if metadata["Software"]["privacy"]:
+                contributors.append(f"{commit.author.name}")
+            else:
+                contributors.append(
+                    f"{commit.author.name}, <{commit.author.email}>"
+                )
 
     contributors = list(set(contributors))
 
@@ -57,8 +37,6 @@ def get_contributors(metadata, max_commits=800):
 
 
 def get_url():
-    # Path to the local git repository
-    # repo_path = "/path/to/your/repo"
     # Initialise the Repo object
     repo = Repo(search_parent_directories=True)
     # Extract the Git repository URL
@@ -82,8 +60,10 @@ def get_platform():
 def get_langs():
     # The whole project needs to be spidered
     # Check each file type against this dict
-    with open(os.path.join(os.getcwd(), "languages.json")) as file:
-        lang_dict = json.loads(file.read())
+    data_folder = importlib.resources.files("auto_meta") / "data"
+    with importlib.resources.as_file(data_folder / "languages.json") as f:
+        with open(f) as file:
+            lang_dict = json.loads(file.read())
 
     # Go to parent folder and recursively glob to get all files
     files_list = glob.glob("**", root_dir=os.getcwd(), recursive=True)
