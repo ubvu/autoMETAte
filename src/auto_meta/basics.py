@@ -6,12 +6,6 @@ from os.path import dirname, isdir, join
 
 from git import Repo
 
-# Automating filling out of the basics of a metadata file
-# Type = "" # Pre filled based on which template is used
-# Title = "" # Taken directly from the project folder name
-# Description = "" # Copied from the readme
-# Version = "" # Get it from the commit message if possible
-
 
 def get_title():
     return os.path.basename(os.getcwd())
