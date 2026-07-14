@@ -13,11 +13,19 @@ def get_title():
 
 def get_description():
     # TODO: Fix to use relative location for the readme as cwd might not be the base folder # noqa: E501
-    with open(os.path.join(os.getcwd(), "README.md")) as f:
-        for line in f.readlines():
-            paragraph = re.match(r"^[^#\n].+$", line)
-            if paragraph:
-                return line
+    try:
+        with open(os.path.join(os.getcwd(), "README.md")) as f:
+            for line in f.readlines():
+                paragraph = re.match(r"^[^#\n].+$", line)
+                # Average word length inenglish with spaces is ~6 chars
+                ## this leaves the 75 chars at 12.5 words
+                ### It should avoid images and pre-amble
+                if paragraph and len(line) > 75:
+                    return line
+    except FileNotFoundError:
+        print("""There is no README for this project.
+            That will make re-use and citing of your work difficult.""")
+        return ""
 
 
 version_re = re.compile("^Version: (.+)$", re.M)

@@ -86,7 +86,7 @@ def get_license():
         return license[0].split("\n")[0]
     except FileNotFoundError:
         print("""There is no license for this project.
-              That will make publishing and sharing your work difficult.""")
+            That will make publishing and sharing your work difficult.""")
         return ""
 
 
