@@ -79,7 +79,10 @@ def get_version():
         # last_five_commits = list(repo.iter_commits("master", max_count=5))
         headcommit = repo.head.commit
         commit_msg = headcommit.message
-        version = re.findall(r"[vV](\d*.*\d*.*\d*)", commit_msg)[0]
+        try:
+            version = re.findall(r"[vV](\d*.*\d*.*\d*)", commit_msg)[0]
+        except IndexError:
+            return "N/A"
 
     return version
 
