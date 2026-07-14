@@ -1,6 +1,6 @@
 - id: autometate
   name: autoMETAte
   description: This hook populates a human and machine readable metadata file automatically.
-  entry: python src/auto_meta/cli.py
+  entry: cli
   language: python
   types: [python]
