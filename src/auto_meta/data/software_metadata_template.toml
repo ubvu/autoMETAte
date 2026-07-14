@@ -1,8 +1,10 @@
-# This is the template for software metadata used in the VU
+# This file is the template for software metadata used in the VU
 # There are two parts to it, required and optional
 # The required part will be automatically filled out or you
 ## will be prompted for it when using the VU software templates
 # The optional part will be automatically filled where possible
+# Further below is a section for related works such as
+## documentation and manuscripts, data, or other software
 
 # ************** REQUIRED *****************
 [Basic]

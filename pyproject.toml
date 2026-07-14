@@ -4,7 +4,7 @@ requires = ["setuptools", "setuptools-scm"]
 
 [project]
 name = "autometate"
-version = "0.4.2"
+version = "0.4.3"
 description = "Automation of metadata production for software"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cli = "hooks.cli:main"
+cli = "auto_meta.cli:main"
 
 [tool.setuptools.package-data]
 auto_meta = ["data/*"]

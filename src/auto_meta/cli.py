@@ -4,8 +4,14 @@ import importlib.resources
 import os
 
 import tomlkit
-from basics import get_commit_date, get_description, get_title, get_version
-from optionals import (
+
+from auto_meta.basics import (
+    get_commit_date,
+    get_description,
+    get_title,
+    get_version,
+)
+from auto_meta.optionals import (
     get_contact,
     get_contributors,
     get_langs,
