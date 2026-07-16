@@ -3,4 +3,3 @@
   description: This hook populates a human and machine readable metadata file automatically.
   entry: cli
   language: python
-  types: [python]
