@@ -15,7 +15,7 @@ Your `.pre-commit-config.yaml` file can be written with any text editor or IDE a
 
 ```
 - repo: https://github.com/ubvu/autoMETAte
-  rev: v0.4.3-alpha
+  rev: v0.4.4-alpha
   hooks:
     - id: autometate
 ```
