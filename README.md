@@ -11,17 +11,24 @@ Metadata is important to have in order for people to effectively find your work 
 
 It is a pre-commit hook, meaning that it will run when you commit your work to git (whether you store your code in github, codeberg, gitlab, or another service). To use it you need to install [precommit](https://pre-commit.com/#install) and add this repository to the `.pre-commit-config.yaml` file and it will run and update your metadata file everytime you make a commit. That way your metadata is always up to date and you can continue doing what you do best!
 
-Your `.pre-commit-config.yaml` file can be written with any text editor or IDE and should contain the following lines:
+Your `.pre-commit-config.yaml` file can be written with any text editor or IDE and should contain the following text below a line that says "repos:"
 
 ```
 - repo: https://github.com/ubvu/autoMETAte
-  rev: v0.4.4-alpha
+  rev: v0.4.5-alpha
   hooks:
     - id: autometate
 ```
 
+## NOTE:
+If you are using R (or another language) you will still need a valid version of Python in order to run the hook. The code is written in Python and so for now will require an installation of Python >=3.11.
+
+
 # what is to come?
 
+A R friendly version, either with a mechanism to install python or a clone re-written in R in the same repository.
+
 This project is currently in alpha and so there is more to come. In its current form it has some of the basics completed, but ideally every field in the metadata will have atleast one mechanism to try to automate it and automation of the DOI is likely to be next. For more information on the progression of the project check out the [issues page](https://github.com/ubvu/autoMETAte/issues). Equally, if you find a bug or have a request then add it as an issue.
+
 
 Beyond the plans for the code itself there are also plans to connect with services like [Yoda](https://github.com/UtrechtUniversity/Yoda) and [Zenodo](https://zenodo.org/) to meet their metadata requirements and allow the metadata files to be uploaded or automatically read. This should improve the spreading of metadata adoption and save the effort of having to fill out the forms yourself.

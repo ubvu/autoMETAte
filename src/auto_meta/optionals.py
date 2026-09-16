@@ -40,7 +40,11 @@ def get_url():
     # Initialise the Repo object
     repo = Repo(search_parent_directories=True)
     # Extract the Git repository URL
-    repo_url = repo.remotes.origin.url
+    try:
+        repo_url = repo.remotes.origin.url
+    except AttributeError:
+        repo_url = ""
+        print("Repo does not seem to be connected to a remote repository.")
 
     return str(repo_url)
 
@@ -50,9 +54,13 @@ def get_platform():
     # Initialise the Repo object
     repo = Repo(search_parent_directories=True)
     # Extract the Git repository URL
-    repo_url = repo.remotes.origin.url
-
-    platform = re.findall(r"\/(\w+).", repo_url)[0]
+    try:
+        repo_url = repo.remotes.origin.url
+        platform = re.findall(r"\/(\w+).", repo_url)[0]
+    except AttributeError:
+        repo_url = ""
+        platform = ""
+        print("Repo does not seem to be connected to a remote repository.")
 
     return platform
 
