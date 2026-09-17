@@ -81,6 +81,10 @@ def get_langs():
             lang_list.append(lang_dict["." + file.split(".")[-1]])
         except Exception as e:
             print(e)
+            try:
+                lang_list.append(lang_dict["." + file.split(".")[-1].lower()])
+            except Exception as e:
+                print(e, "Could not be found as lower case either.")
     lang_list = list(set(lang_list))
 
     return lang_list

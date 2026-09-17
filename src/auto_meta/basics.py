@@ -92,4 +92,7 @@ def get_commit_date():
     repo = Repo(search_parent_directories=True)
     date = repo.head.commit.committed_date
     date = datetime.fromtimestamp(date).strftime("%Y-%m-%d %H:%M:%S")
-    return date
+    if date:
+        return date
+    else:
+        return str(datetime.datetime.now())
